@@ -2,8 +2,8 @@ package utils
 
 import "testing"
 
-// Takes in a string representation of the Kas value to convert to Seep
-func TestKasToSeep(t *testing.T) {
+// Takes in a string representation of the Sdr value to convert to Seep
+func TestSdrToSeep(t *testing.T) {
 	type testVector struct {
 		originalAmount  string
 		convertedAmount uint64
@@ -18,7 +18,7 @@ func TestKasToSeep(t *testing.T) {
 	}
 
 	for _, currentTestVector := range validCases {
-		convertedAmount, err := KasToSeep(currentTestVector.originalAmount)
+		convertedAmount, err := SdrToSeep(currentTestVector.originalAmount)
 
 		if err != nil {
 			t.Error(err)
@@ -35,7 +35,7 @@ func TestKasToSeep(t *testing.T) {
 	}
 
 	for _, currentTestVector := range invalidCases {
-		_, err := KasToSeep(currentTestVector)
+		_, err := SdrToSeep(currentTestVector)
 
 		if err == nil {
 			t.Errorf("Expected an error but succeeded validation for test case %s", currentTestVector)

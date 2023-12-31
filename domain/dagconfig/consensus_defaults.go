@@ -12,14 +12,6 @@ import (
 // For more information about defaultGHOSTDAGK, and its dependency on delta and defaultTargetTimePerBlock
 // please refer to the PHANTOM paper: https://eprint.iacr.org/2018/104.pdf
 //
-// For more information about the DAA constants defaultDifficultyAdjustmentWindowSize, defaultTimestampDeviationTolerance,
-// and their relation to defaultGHOSTDAGK and defaultTargetTimePerBlock see:
-// https://research.kas.pa/t/handling-timestamp-manipulations/97
-//
-// For more information about defaultMergeSetSizeLimit, defaultFinalityDuration and their relation to pruning, see:
-// https://research.kas.pa/t/a-proposal-for-finality-in-ghostdag/66/17
-// https://research.kas.pa/t/some-of-the-intuition-behind-the-design-of-the-invalidation-rules-for-pruning/95
-//
 
 const (
 	defaultMaxCoinbasePayloadLength = 204

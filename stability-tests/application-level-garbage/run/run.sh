@@ -13,7 +13,7 @@ trap "killSedradIfNotKilled" EXIT
 
 sleep 1
 
-application-level-garbage --devnet -alocalhost:16611 -b blocks.dat --profile=7000
+application-level-garbage --devnet -alocalhost:22611 -b blocks.dat --profile=7000
 TEST_EXIT_CODE=$?
 
 kill $SEDRAD_PID

@@ -20,7 +20,7 @@ func createUnsignedTransaction(conf *createUnsignedTransactionConfig) error {
 	ctx, cancel := context.WithTimeout(context.Background(), daemonTimeout)
 	defer cancel()
 
-	sendAmountSeep, err := utils.KasToSeep(conf.SendAmount)
+	sendAmountSeep, err := utils.SdrToSeep(conf.SendAmount)
 
 	if err != nil {
 		return err

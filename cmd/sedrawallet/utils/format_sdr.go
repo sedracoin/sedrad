@@ -11,8 +11,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-// FormatKas takes the amount of seeps as uint64, and returns amount of SDR with 8  decimal places
-func FormatKas(amount uint64) string {
+// FormatSdr takes the amount of seeps as uint64, and returns amount of SDR with 8  decimal places
+func FormatSdr(amount uint64) string {
 	res := "                   "
 	if amount > 0 {
 		res = fmt.Sprintf("%19.8f", float64(amount)/constants.SeepPerSedra)
@@ -20,8 +20,8 @@ func FormatKas(amount uint64) string {
 	return res
 }
 
-// KasToSeep takes in a string representation of the Kas value to convert to Seep
-func KasToSeep(amount string) (uint64, error) {
+// SdrToSeep takes in a string representation of the Sdr value to convert to Seep
+func SdrToSeep(amount string) (uint64, error) {
 	err := validateSDRAmountFormat(amount)
 
 	if err != nil {

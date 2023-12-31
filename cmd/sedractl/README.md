@@ -32,10 +32,10 @@ $ go install .
 
 ## Usage
 
-The full kaspctl configuration options can be seen with:
+The full sedrctl configuration options can be seen with:
 
 ```bash
-$ kaspctl --help
+$ sedrctl --help
 ```
 
 But the minimum configuration needed to run it is:

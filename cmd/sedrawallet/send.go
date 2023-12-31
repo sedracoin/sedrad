@@ -35,7 +35,7 @@ func send(conf *sendConfig) error {
 
 	var sendAmountSeep uint64
 	if !conf.IsSendAll {
-		sendAmountSeep, err = utils.KasToSeep(conf.SendAmount)
+		sendAmountSeep, err = utils.SdrToSeep(conf.SendAmount)
 
 		if err != nil {
 			return err

@@ -211,10 +211,9 @@ var MainnetParams = Params{
 	K:           defaultGHOSTDAGK,
 	Name:        "sedra-mainnet",
 	Net:         appmessage.Mainnet,
-	RPCPort:     "16110",
-	DefaultPort: "16111",
+	RPCPort:     "22110",
+	DefaultPort: "22111",
 	DNSSeeds: []string{
-		// This DNS seeder is run by supertypo
 		"sedracoin.com",
 	},
 
@@ -280,12 +279,10 @@ var TestnetParams = Params{
 	K:           defaultGHOSTDAGK,
 	Name:        "sedra-testnet-10",
 	Net:         appmessage.Testnet,
-	RPCPort:     "16210",
-	DefaultPort: "16211",
+	RPCPort:     "22210",
+	DefaultPort: "22211",
 	DNSSeeds: []string{
-		"testnet-10-dnsseed.kas.pa",
-		// This DNS seeder is run by Tiram
-		"seeder1-testnet.sedrad.net",
+		//"sedracoin.com",
 	},
 
 	// DAG parameters
@@ -352,8 +349,8 @@ var SimnetParams = Params{
 	K:           defaultGHOSTDAGK,
 	Name:        "sedra-simnet",
 	Net:         appmessage.Simnet,
-	RPCPort:     "16510",
-	DefaultPort: "16511",
+	RPCPort:     "22510",
+	DefaultPort: "22511",
 	DNSSeeds:    []string{}, // NOTE: There must NOT be any seeds.
 
 	// DAG parameters
@@ -412,8 +409,8 @@ var DevnetParams = Params{
 	K:           defaultGHOSTDAGK,
 	Name:        "sedra-devnet",
 	Net:         appmessage.Devnet,
-	RPCPort:     "16610",
-	DefaultPort: "16611",
+	RPCPort:     "22610",
+	DefaultPort: "22611",
 	DNSSeeds:    []string{}, // NOTE: There must NOT be any seeds.
 
 	// DAG parameters

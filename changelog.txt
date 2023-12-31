@@ -266,7 +266,7 @@ Non-breaking changes:
 * Ignore header mass in devnet and testnet (#1879)
 * Remove unused args from CalcSubsidy (#1877)
 * ExpectedHeaderPruningPoint fix (#1876)
-* Changes to libsedrawallet to support Kaspaper (#1878)
+* Changes to libsedrawallet to support Sedraper (#1878)
 * Get rid of genesis's UTXO dump (#1867)
 
 sedrad v0.11.2 - 2021-11-11

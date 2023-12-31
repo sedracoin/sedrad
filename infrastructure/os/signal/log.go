@@ -8,4 +8,4 @@ import (
 	"github.com/sedracoin/sedrad/infrastructure/logger"
 )
 
-var kasdLog = logger.RegisterSubSystem("SDRD")
+var sdrdLog = logger.RegisterSubSystem("SDRD")

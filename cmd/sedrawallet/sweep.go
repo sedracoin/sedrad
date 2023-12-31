@@ -116,12 +116,12 @@ func sweep(conf *sweepConfig) error {
 	fmt.Println("\nTransaction ID(s):")
 	for i, txID := range response.TxIDs {
 		fmt.Printf("\t%s\n", txID)
-		fmt.Println("\tSwept:\t", utils.FormatKas(splitTransactions[i].Outputs[0].Value), " SDR")
+		fmt.Println("\tSwept:\t", utils.FormatSdr(splitTransactions[i].Outputs[0].Value), " SDR")
 		totalExtracted = totalExtracted + splitTransactions[i].Outputs[0].Value
 	}
 
 	fmt.Println("\nTotal Funds swept (including transaction fees):")
-	fmt.Println("\t", utils.FormatKas(totalExtracted), " SDR")
+	fmt.Println("\t", utils.FormatSdr(totalExtracted), " SDR")
 
 	return nil
 }
