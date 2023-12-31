@@ -1,0 +1,16 @@
+#!/bin/sh -ex
+
+go get -v -t -d ./...
+# This is to bypass a go bug: https://github.com/golang/go/issues/27643
+GO111MODULE=off go get -v golang.org/x/lint/golint
+
+GOFMT_RESULT=$(go fmt ./...); echo "$GOFMT_RESULT"; test -z "$GOFMT_RESULT"
+
+golint -set_exit_status ./...
+
+go vet ./...
+
+go build -v ./...
+
+export GODEBUG=cgocheck=2
+go test -v ./...
