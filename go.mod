@@ -13,8 +13,8 @@ require (
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/jrick/logrotate v1.0.0
 	github.com/pkg/errors v0.9.1
-	github.com/sedracoin/go-muhash v0.0.0-20231230145816-0bc245d8c864
-	github.com/sedracoin/go-secp256k1 v0.0.0-20231230145816-0bc245d8c864
+	github.com/sedracoin/go-muhash v1.0.0
+	github.com/sedracoin/go-secp256k1 v1.0.0
 	github.com/syndtr/goleveldb v1.0.1-0.20190923125748-758128399b1d
 	github.com/tyler-smith/go-bip39 v1.1.0
 	golang.org/x/crypto v0.1.0
