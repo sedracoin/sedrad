@@ -1,7 +1,7 @@
 package server
 
 import (
-	"github.com/sedracoin/sedrad/go-secp256k1"
+	"github.com/sedracoin/go-secp256k1"
 	"github.com/pkg/errors"
 
 	"github.com/sedracoin/sedrad/cmd/sedrawallet/libsedrawallet"

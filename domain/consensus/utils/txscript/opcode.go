@@ -17,7 +17,7 @@ import (
 
 	"github.com/sedracoin/sedrad/domain/consensus/utils/constants"
 
-	"github.com/sedracoin/sedrad/go-secp256k1"
+	"github.com/sedracoin/go-secp256k1"
 )
 
 // An opcode defines the information related to a txscript opcode. opfunc, if

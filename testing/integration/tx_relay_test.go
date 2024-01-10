@@ -10,7 +10,7 @@ import (
 
 	"github.com/sedracoin/sedrad/domain/consensus/utils/utxo"
 
-	"github.com/sedracoin/sedrad/go-secp256k1"
+	"github.com/sedracoin/go-secp256k1"
 	"github.com/sedracoin/sedrad/app/appmessage"
 	"github.com/sedracoin/sedrad/domain/consensus/model/externalapi"
 	"github.com/sedracoin/sedrad/domain/consensus/utils/consensushashing"

@@ -6,7 +6,7 @@ import (
 	"github.com/sedracoin/sedrad/domain/consensus/utils/subnetworks"
 	"testing"
 
-	"github.com/sedracoin/sedrad/go-secp256k1"
+	"github.com/sedracoin/go-secp256k1"
 
 	"github.com/sedracoin/sedrad/domain/consensus/utils/consensushashing"
 	"github.com/sedracoin/sedrad/domain/consensus/utils/txscript"

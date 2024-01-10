@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/sedracoin/sedrad/go-secp256k1"
+	"github.com/sedracoin/go-secp256k1"
 	"github.com/sedracoin/sedrad/cmd/sedrawallet/libsedrawallet/bip32"
 	"github.com/sedracoin/sedrad/domain/dagconfig"
 	"github.com/sedracoin/sedrad/util"

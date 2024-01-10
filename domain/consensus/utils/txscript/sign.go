@@ -5,7 +5,7 @@
 package txscript
 
 import (
-	"github.com/sedracoin/sedrad/go-secp256k1"
+	"github.com/sedracoin/go-secp256k1"
 	"github.com/sedracoin/sedrad/domain/consensus/model/externalapi"
 	"github.com/sedracoin/sedrad/domain/consensus/utils/consensushashing"
 	"github.com/pkg/errors"

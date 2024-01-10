@@ -5,7 +5,7 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/sedracoin/sedrad/go-secp256k1"
+	"github.com/sedracoin/go-secp256k1"
 	"github.com/sedracoin/sedrad/cmd/sedrawallet/daemon/client"
 	"github.com/sedracoin/sedrad/cmd/sedrawallet/daemon/pb"
 	"github.com/sedracoin/sedrad/cmd/sedrawallet/libsedrawallet"

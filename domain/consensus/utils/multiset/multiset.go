@@ -1,7 +1,7 @@
 package multiset
 
 import (
-	"github.com/sedracoin/sedrad/go-muhash"
+	"github.com/sedracoin/go-muhash"
 	"github.com/sedracoin/sedrad/domain/consensus/model"
 	"github.com/sedracoin/sedrad/domain/consensus/model/externalapi"
 	"github.com/pkg/errors"
