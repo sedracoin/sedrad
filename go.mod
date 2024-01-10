@@ -1,4 +1,7 @@
 module  github.com/sedracoin/sedrad
+	github.com/sedracoin/go-muhash
+	github.com/sedracoin/go-secp256k1
+
 
 go 1.18
 
