@@ -33,3 +33,6 @@ require (
     gopkg.in/yaml.v2 v2.3.0 // indirect
 )
 
+replace github.com/sedracoin/go-muhash => github.com/sedracoin/sedrad/go-muhash v1.0.0
+replace github.com/sedracoin/go-secp256k1 => github.com/sedracoin/sedrad/go-secp256k1 v1.0.0
+
