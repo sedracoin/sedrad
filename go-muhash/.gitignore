@@ -1,6 +1,0 @@
-coverage.out
-fuzz_muhash
-fuzz_muhash.a
-fuzz-*.log
-muhash-fuzz.zip
-_obj/
