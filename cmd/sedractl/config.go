@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/jessevdk/go-flags"
+	"github.com/sedracoin/go-flags"
 	"github.com/sedracoin/sedrad/infrastructure/config"
 	"github.com/pkg/errors"
 )
