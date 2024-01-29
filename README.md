@@ -1,5 +1,5 @@
 
-sedrad
+SEDRAD
 ====
 
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](https://choosealicense.com/licenses/isc/)
@@ -7,13 +7,13 @@ sedrad
 
 sedrad is the reference full node sedra implementation written in Go (golang).
 
-## What is sedra
+## What is SedraCoin
 
 sedra is an attempt at a proof-of-work cryptocurrency with instant confirmations and sub-second block times. It is based on [the PHANTOM protocol](https://eprint.iacr.org/2018/104.pdf), a generalization of Nakamoto consensus.
 
 ## Requirements
 
-Go 1.18 or later.
+Go 1.19 or later.
 
 ## Installation
 
@@ -51,7 +51,7 @@ $ sedrad
 ```
 
 ## Discord
-Join our discord server using the following link: https://discord.gg/YNYnNN5Pf2
+Join our discord server using the following link: https://discord.gg/qam2EqqCqU
 
 ## Issue Tracker
 
