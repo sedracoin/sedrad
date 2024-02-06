@@ -1,0 +1,219 @@
+[33mcommit 98e673433aad9cc18ad2404cb0ae1a69e79240bd[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Mon Jan 29 22:09:46 2024 +0100
+
+    1
+
+[33mcommit dc1b0e7e1d6dc8ee1db2355d594ba9190dc12c00[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Mon Jan 29 17:14:31 2024 +0100
+
+    1
+
+[33mcommit 1e12629a4a329cc307d9073b293a638851db7256[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Mon Jan 29 17:07:41 2024 +0100
+
+    1
+
+[33mcommit dcad19e644475f573a0d408d4851c550d20769a8[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 15:26:24 2024 +0100
+
+    1
+
+[33mcommit 6f3266212fbc9fb02ef6c79ba5aab56be7e6ac48[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 15:26:15 2024 +0100
+
+    1
+
+[33mcommit f8d2a8ade12d5f8ab6f3a6ffac25373e5adacea9[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 15:24:48 2024 +0100
+
+    1
+
+[33mcommit 19c6098e0aa89e99473fc8662d3b0f8496fd8011[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 15:24:41 2024 +0100
+
+    1
+
+[33mcommit 9d3080ba4dcb0ecc52ab7c0da3776e553000635d[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 15:23:28 2024 +0100
+
+    Update go.mod
+
+[33mcommit 4998ac8b2b030e6a129815bb4aba3b3b52bb9bf3[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 15:12:59 2024 +0100
+
+    1
+
+[33mcommit 6490456383e5de55f7611bef1dc89668fd4209f4[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 15:02:57 2024 +0100
+
+    1
+
+[33mcommit 400c569652ec25403950ad59c9673936d2a0d1f9[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 14:28:02 2024 +0100
+
+    1
+
+[33mcommit 287c1b7c15a9562a7bfad00bd4d9f276302870de[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 14:27:31 2024 +0100
+
+    1
+
+[33mcommit 993dd6095019f3ff12c7af534983f07429e7ab16[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 14:24:27 2024 +0100
+
+    1
+
+[33mcommit b7e0674c4065cd92e5be63f42a393e5e76700a3d[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 14:00:00 2024 +0100
+
+    1
+
+[33mcommit 187587dc84e9952e376bd37c26dee4646415ccf9[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 13:52:12 2024 +0100
+
+    Delete go.sum
+
+[33mcommit bdf751adcca477ade0c945216583f5d74d852d44[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 13:44:23 2024 +0100
+
+    1
+
+[33mcommit 39f86d0aa7e281cc8de0cdc894245cee46828dee[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 13:12:43 2024 +0100
+
+    1
+
+[33mcommit f6445bfdbf308fab0d8819078361b2f59f18abdc[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 13:07:56 2024 +0100
+
+    1
+
+[33mcommit f4b637a96c3d23071055489ac55ffc358c3cd98d[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 13:06:35 2024 +0100
+
+    1
+
+[33mcommit a6acd089168ee1bb380384b60ee949c4805c502c[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 13:03:05 2024 +0100
+
+    1
+
+[33mcommit ee8eb5fd0c4cd2fef8228bd86bc08213df6df3d9[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 13:02:25 2024 +0100
+
+    1
+
+[33mcommit d48b364f416dbcdec3594038d3f927def208c536[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 13:01:02 2024 +0100
+
+    1
+
+[33mcommit 82bbe36576e9ec06d8ab0232adf0902729b7471e[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 12:21:24 2024 +0100
+
+    1
+
+[33mcommit 13bb83ad9fa255a8bfb8023c7ec3de583490eace[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 12:17:03 2024 +0100
+
+    1
+
+[33mcommit 606568c5129f5e2046c20cf984ac7f35313ba761[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Wed Jan 10 12:05:16 2024 +0100
+
+    1
+
+[33mcommit 55ce28070b5199ab8158d4ef57f26e419ade4160[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Tue Jan 2 19:49:25 2024 +0100
+
+    Create main.yml
+
+[33mcommit 2e351fab13bf80f42dd6df7b1d9df25524d0e46c[m
+Merge: 0266e3c 0ca436a
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Tue Jan 2 17:55:18 2024 +0100
+
+    Merge pull request #1 from sedracoin/1.0.0-new
+    
+    1.0.0 new
+
+[33mcommit 0ca436aed6effa26ae53e65b443c37b98deff7d6[m
+Merge: e6f53f3 0266e3c
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Tue Jan 2 17:51:54 2024 +0100
+
+    Merge remote-tracking branch 'origin/main' into HEAD
+
+[33mcommit 0266e3c642416431f622a09ae10de0abf050dec2[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Tue Jan 2 17:43:12 2024 +0100
+
+    1
+
+[33mcommit e6f53f300aa9ca2af81068a0116bef8e302835cf[m[33m ([m[1;33mtag: v1.0.0[m[33m)[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Tue Jan 2 17:42:43 2024 +0100
+
+    1
+
+[33mcommit 79ea4fc4cb08e8ea32798f0f2f19de4db6eb5454[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Tue Jan 2 17:27:19 2024 +0100
+
+    1
+
+[33mcommit 4f03b419e02f7b57851a75cbb780dd3d2da7472a[m
+Author: Sedra <153611555+sedracoin@users.noreply.github.com>
+Date:   Tue Jan 2 17:26:47 2024 +0100
+
+    1
+
+[33mcommit 47f9292397777bcc74c6f8cc38ae190d82353276[m
+Author: Sedra <coinsedra@gmail.com>
+Date:   Sun Dec 31 18:41:34 2023 +0100
+
+    1
+
+[33mcommit ec72902d2a7f82cf75df5e6ede9eb130f7ed19e4[m
+Author: Sedra <coinsedra@gmail.com>
+Date:   Sun Dec 31 18:09:04 2023 +0100
+
+    1
+
+[33mcommit d2abe60b2a9ef667b99f7d7eb166bdb042a341bc[m
+Author: Sedra <coinsedra@gmail.com>
+Date:   Sun Dec 31 17:47:30 2023 +0100
+
+    first commit
+
+[33mcommit b92a8022dc8e1d65590e8c668dbe4bb3ea539e9d[m
+Author: Sedra <coinsedra@gmail.com>
+Date:   Sun Dec 31 17:43:48 2023 +0100
+
+    Initial commit
