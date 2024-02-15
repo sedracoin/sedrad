@@ -214,7 +214,9 @@ var MainnetParams = Params{
 	RPCPort:     "22110",
 	DefaultPort: "22111",
 	DNSSeeds: []string{
-		"sedracoin.com",
+		"sedra-seed-1.sedracoin.com",
+		"sedra-seed-2.sedracoin.com",
+		"sedra-seed-3.sedracoin.com",
 	},
 
 	// DAG parameters
