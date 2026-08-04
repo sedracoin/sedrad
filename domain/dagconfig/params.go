@@ -74,6 +74,14 @@ type Params struct {
 	// as one method to discover peers.
 	GRPCSeeds []string
 
+	// DefaultFallbackPeers is a list of hardcoded bootstrap peers (host:port)
+	// that a node will permanently connect to at startup when the operator has
+	// specified neither --addpeer nor --connect. This provides a DNS-independent
+	// bootstrap path so a fresh node can join the network even if every DNS seed
+	// is unreachable (the failure mode that froze the original chain). Discovery
+	// stays enabled, so these are a fallback, not an allowlist.
+	DefaultFallbackPeers []string
+
 	// GenesisBlock defines the first block of the DAG.
 	GenesisBlock *externalapi.DomainBlock
 
@@ -217,6 +225,16 @@ var MainnetParams = Params{
 		"sedra-seed-1.sedracoin.com",
 		"sedra-seed-2.sedracoin.com",
 		"sedra-seed-3.sedracoin.com",
+	},
+
+	// DefaultFallbackPeers are our operated bootstrap nodes, used only when the
+	// operator specified neither --addpeer nor --connect. They give a
+	// DNS-independent bootstrap path. Port omitted -> normalized to DefaultPort
+	// (22111). TODO(relaunch): confirm each is live and serving 22111 before
+	// tagging the v1.1.0 release; extend/replace as independent operators join.
+	DefaultFallbackPeers: []string{
+		"169.58.126.141", // hub node
+		"169.58.111.191", // secondary node
 	},
 
 	// DAG parameters

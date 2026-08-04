@@ -527,6 +527,16 @@ func LoadConfig() (*Config, error) {
 		return nil, err
 	}
 
+	// Relaunch (v1.1.0) bootstrap resilience: when the operator specified
+	// neither --addpeer nor --connect, seed the network's hardcoded fallback
+	// bootstrap peers as permanent connections. This lets a fresh node join
+	// even if every DNS seed is unreachable (the failure mode that froze the
+	// original chain). Discovery stays enabled, so these are a fallback rather
+	// than an allowlist (unlike --connect). Consensus is unaffected.
+	if len(cfg.AddPeers) == 0 && len(cfg.ConnectPeers) == 0 {
+		cfg.AddPeers = append(cfg.AddPeers, cfg.NetParams().DefaultFallbackPeers...)
+	}
+
 	// Add default port to all added peer addresses if needed and remove
 	// duplicate addresses.
 	cfg.AddPeers, err = network.NormalizeAddresses(cfg.AddPeers,
