@@ -247,6 +247,11 @@ func (f *factory) NewConsensus(config *Config, db infrastructuredatabase.Databas
 		config.DeflationaryPhaseDaaScore,
 		config.DeflationaryPhaseBaseSubsidy,
 
+		config.TreasuryAllocationActivationDaaScore,
+		config.TreasuryAllocationWindowBlocks,
+		config.TreasuryAllocationPerBlockSeep,
+		config.TreasuryScriptPublicKey,
+
 		dagTraversalManager,
 		ghostdagDataStore,
 		acceptanceDataStore,

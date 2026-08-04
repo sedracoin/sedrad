@@ -103,6 +103,24 @@ type Params struct {
 	PreDeflationaryPhaseBaseSubsidy uint64
 	DeflationaryPhaseBaseSubsidy    uint64
 
+	// Treasury allocation (v2.0.0 hard fork). A one-time, height-gated treasury
+	// emission that does NOT alter the miner subsidy curve (Model B): for every
+	// block whose DAA score is in [TreasuryAllocationActivationDaaScore,
+	// TreasuryAllocationActivationDaaScore+TreasuryAllocationWindowBlocks), the
+	// coinbase includes one extra output of TreasuryAllocationPerBlockSeep paying
+	// TreasuryScriptPublicKey (the disclosed 2-of-3, CLTV-timelocked multisig).
+	// The window's total is the 2B allocation; multi-year vesting is enforced by
+	// the CLTV timelock on the script, not by the emission schedule.
+	// DORMANT unless TreasuryAllocationWindowBlocks>0 AND TreasuryScriptPublicKey
+	// is set — so an unconfigured fork build is byte-identical to pre-fork.
+	// A window (rather than a single block) is required because coinbase is built
+	// and validated per-block from each block's own DAA data; no single-block
+	// condition is unique in a DAG.
+	TreasuryAllocationActivationDaaScore uint64
+	TreasuryAllocationWindowBlocks       uint64
+	TreasuryAllocationPerBlockSeep       uint64
+	TreasuryScriptPublicKey              *externalapi.ScriptPublicKey
+
 	// TargetTimePerBlock is the desired amount of time to generate each
 	// block.
 	TargetTimePerBlock time.Duration

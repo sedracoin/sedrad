@@ -20,6 +20,12 @@ type coinbaseManager struct {
 	deflationaryPhaseDaaScore               uint64
 	deflationaryPhaseBaseSubsidy            uint64
 
+	// Treasury allocation (v2.0.0). Dormant when window==0 or script==nil.
+	treasuryAllocationActivationDaaScore uint64
+	treasuryAllocationWindowBlocks       uint64
+	treasuryAllocationPerBlockSeep       uint64
+	treasuryScriptPublicKey              *externalapi.ScriptPublicKey
+
 	databaseContext     model.DBReader
 	dagTraversalManager model.DAGTraversalManager
 	ghostdagDataStore   model.GHOSTDAGDataStore
@@ -77,6 +83,17 @@ func (c *coinbaseManager) ExpectedCoinbaseTransaction(stagingArea *model.Staging
 
 	if hasRedReward {
 		txOuts = append(txOuts, txOut)
+	}
+
+	// Treasury allocation (v2.0.0): height-gated one-time emission that leaves the
+	// miner subsidy untouched. Appended deterministically so the builder and the
+	// validator (both call this function) always agree.
+	allocationTxOut, hasAllocation, err := c.treasuryAllocationOutput(stagingArea, blockHash)
+	if err != nil {
+		return nil, false, err
+	}
+	if hasAllocation {
+		txOuts = append(txOuts, allocationTxOut)
 	}
 
 	subsidy, err := c.CalcBlockSubsidy(stagingArea, blockHash)
@@ -193,6 +210,54 @@ func (c *coinbaseManager) CalcBlockSubsidy(stagingArea *model.StagingArea, block
 	return blockSubsidy, nil
 }
 
+// treasuryAllocationOutput returns the treasury allocation coinbase output for the
+// given block, if the block falls within the v2.0.0 allocation window. Returns
+// (nil, false, nil) when the allocation is dormant or the block is outside the
+// window. See dagconfig.Params for the full description.
+func (c *coinbaseManager) treasuryAllocationOutput(stagingArea *model.StagingArea,
+	blockHash *externalapi.DomainHash) (*externalapi.DomainTransactionOutput, bool, error) {
+
+	// Dormant unless a window, a per-block amount, and a destination script are all set.
+	if c.treasuryAllocationWindowBlocks == 0 || c.treasuryAllocationPerBlockSeep == 0 ||
+		c.treasuryScriptPublicKey == nil {
+		return nil, false, nil
+	}
+
+	// Genesis carries no allocation.
+	if blockHash.Equal(c.genesisHash) {
+		return nil, false, nil
+	}
+
+	blockDaaScore, err := c.daaBlocksStore.DAAScore(c.databaseContext, stagingArea, blockHash)
+	if err != nil {
+		return nil, false, err
+	}
+
+	if !blockInTreasuryAllocationWindow(blockDaaScore, c.treasuryAllocationActivationDaaScore,
+		c.treasuryAllocationWindowBlocks) {
+		return nil, false, nil
+	}
+
+	return &externalapi.DomainTransactionOutput{
+		Value:           c.treasuryAllocationPerBlockSeep,
+		ScriptPublicKey: c.treasuryScriptPublicKey,
+	}, true, nil
+}
+
+// blockInTreasuryAllocationWindow reports whether a block at the given DAA score is
+// within the half-open allocation window [activation, activation+window). Pure
+// function (no I/O) so the gating logic is directly unit-testable.
+func blockInTreasuryAllocationWindow(blockDaaScore, activationDaaScore, windowBlocks uint64) bool {
+	if windowBlocks == 0 {
+		return false
+	}
+	end := activationDaaScore + windowBlocks
+	if end < activationDaaScore { // uint64 overflow guard
+		end = math.MaxUint64
+	}
+	return blockDaaScore >= activationDaaScore && blockDaaScore < end
+}
+
 func (c *coinbaseManager) calcDeflationaryPeriodBlockSubsidy(blockDaaScore uint64) uint64 {
 	// We define a year as 365.25 days and a month as 365.25 / 12 = 30.4375
 	// secondsPerMonth = 30.4375 * 24 * 60 * 60
@@ -267,6 +332,11 @@ func New(
 	deflationaryPhaseDaaScore uint64,
 	deflationaryPhaseBaseSubsidy uint64,
 
+	treasuryAllocationActivationDaaScore uint64,
+	treasuryAllocationWindowBlocks uint64,
+	treasuryAllocationPerBlockSeep uint64,
+	treasuryScriptPublicKey *externalapi.ScriptPublicKey,
+
 	dagTraversalManager model.DAGTraversalManager,
 	ghostdagDataStore model.GHOSTDAGDataStore,
 	acceptanceDataStore model.AcceptanceDataStore,
@@ -284,6 +354,11 @@ func New(
 		genesisHash:                             genesisHash,
 		deflationaryPhaseDaaScore:               deflationaryPhaseDaaScore,
 		deflationaryPhaseBaseSubsidy:            deflationaryPhaseBaseSubsidy,
+
+		treasuryAllocationActivationDaaScore: treasuryAllocationActivationDaaScore,
+		treasuryAllocationWindowBlocks:       treasuryAllocationWindowBlocks,
+		treasuryAllocationPerBlockSeep:       treasuryAllocationPerBlockSeep,
+		treasuryScriptPublicKey:              treasuryScriptPublicKey,
 
 		dagTraversalManager: dagTraversalManager,
 		ghostdagDataStore:   ghostdagDataStore,
