@@ -121,6 +121,15 @@ type Params struct {
 	TreasuryAllocationPerBlockSeep       uint64
 	TreasuryScriptPublicKey              *externalapi.ScriptPublicKey
 
+	// DifficultyResetActivationDaaScore / DifficultyResetWindowBlocks implement the
+	// v2.0.0 fair-restart difficulty reset: for blocks with DAA score in
+	// [DifficultyResetActivationDaaScore, +DifficultyResetWindowBlocks), the required
+	// difficulty is forced to the genesis difficulty so public mining reopens at a
+	// mineable level after the stall; the DAA then re-ramps as hashrate joins.
+	// DORMANT unless both are > 0. Miner subsidy is unaffected.
+	DifficultyResetActivationDaaScore uint64
+	DifficultyResetWindowBlocks       uint64
+
 	// TargetTimePerBlock is the desired amount of time to generate each
 	// block.
 	TargetTimePerBlock time.Duration
@@ -255,6 +264,28 @@ var MainnetParams = Params{
 		"169.58.111.191", // secondary node
 	},
 
+	// Foundation treasury (v2.0.0). Disclosed 2-of-3 multisig receive address:
+	//   sedra:pp8a4l47q0qjwlwgqvnmp5ppssk6zpn9hat58vaw6jkxkee2aqduue9252wc3
+	// P2SH ScriptPublicKey below. Allocation stays DORMANT until Window/PerBlock/
+	// ActivationDaaScore are set at the v2.0.0 release (after the securities review
+	// and the disclosed activation height). Intended: Window=86400 (~1d),
+	// PerBlock=2B*1e8/86400 seep, streaming 2B to this address; miner subsidy untouched.
+	TreasuryScriptPublicKey: &externalapi.ScriptPublicKey{Version: 0, Script: []byte{
+		0xaa, 0x20, 0x4f, 0xda, 0xfe, 0xbe, 0x03, 0xc1, 0x27, 0x7d, 0xc8, 0x03, 0x27, 0xb0, 0xd0, 0x21,
+		0x84, 0x2d, 0xa1, 0x06, 0x65, 0xbf, 0x57, 0x43, 0xb3, 0xae, 0xd4, 0xac, 0x6b, 0x67, 0x2a, 0xe8,
+		0x1b, 0xce, 0x87,
+	}},
+
+	// Fair-restart difficulty reset (v2.0.0). Blocks with DAA score in
+	// [activation, activation+2641) use the genesis difficulty so public mining reopens
+	// mineably after the stall; the DAA then re-ramps with real hashrate. Window = the
+	// DAA window size (2641) for a clean handoff. activation = restored tip DAA
+	// (53,625,512) + 1, so it applies to the FIRST new block and never re-validates the
+	// existing tip. RE-CONFIRM the live tip DAA right before the final release build and
+	// update if the chain advanced. (Treasury allocation above stays dormant separately.)
+	DifficultyResetActivationDaaScore: 53_625_513,
+	DifficultyResetWindowBlocks:       2641,
+
 	// DAG parameters
 	GenesisBlock:                    &genesisBlock,
 	GenesisHash:                     genesisHash,
@@ -319,7 +350,7 @@ var TestnetParams = Params{
 	Net:         appmessage.Testnet,
 	RPCPort:     "22210",
 	DefaultPort: "22211",
-	DNSSeeds: []string{
+	DNSSeeds:    []string{
 		//"sedracoin.com",
 	},
 

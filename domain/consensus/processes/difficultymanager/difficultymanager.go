@@ -16,19 +16,21 @@ import (
 // DifficultyManager provides a method to resolve the
 // difficulty value of a block
 type difficultyManager struct {
-	databaseContext                model.DBReader
-	ghostdagManager                model.GHOSTDAGManager
-	ghostdagStore                  model.GHOSTDAGDataStore
-	headerStore                    model.BlockHeaderStore
-	daaBlocksStore                 model.DAABlocksStore
-	dagTopologyManager             model.DAGTopologyManager
-	dagTraversalManager            model.DAGTraversalManager
-	genesisHash                    *externalapi.DomainHash
-	powMax                         *big.Int
-	difficultyAdjustmentWindowSize int
-	disableDifficultyAdjustment    bool
-	targetTimePerBlock             time.Duration
-	genesisBits                    uint32
+	databaseContext                   model.DBReader
+	ghostdagManager                   model.GHOSTDAGManager
+	ghostdagStore                     model.GHOSTDAGDataStore
+	headerStore                       model.BlockHeaderStore
+	daaBlocksStore                    model.DAABlocksStore
+	dagTopologyManager                model.DAGTopologyManager
+	dagTraversalManager               model.DAGTraversalManager
+	genesisHash                       *externalapi.DomainHash
+	powMax                            *big.Int
+	difficultyAdjustmentWindowSize    int
+	disableDifficultyAdjustment       bool
+	targetTimePerBlock                time.Duration
+	genesisBits                       uint32
+	difficultyResetActivationDaaScore uint64
+	difficultyResetWindowBlocks       uint64
 }
 
 // New instantiates a new DifficultyManager
@@ -44,21 +46,25 @@ func New(databaseContext model.DBReader,
 	disableDifficultyAdjustment bool,
 	targetTimePerBlock time.Duration,
 	genesisHash *externalapi.DomainHash,
-	genesisBits uint32) model.DifficultyManager {
+	genesisBits uint32,
+	difficultyResetActivationDaaScore uint64,
+	difficultyResetWindowBlocks uint64) model.DifficultyManager {
 	return &difficultyManager{
-		databaseContext:                databaseContext,
-		ghostdagManager:                ghostdagManager,
-		ghostdagStore:                  ghostdagStore,
-		headerStore:                    headerStore,
-		daaBlocksStore:                 daaBlocksStore,
-		dagTopologyManager:             dagTopologyManager,
-		dagTraversalManager:            dagTraversalManager,
-		powMax:                         powMax,
-		difficultyAdjustmentWindowSize: difficultyAdjustmentWindowSize,
-		disableDifficultyAdjustment:    disableDifficultyAdjustment,
-		targetTimePerBlock:             targetTimePerBlock,
-		genesisHash:                    genesisHash,
-		genesisBits:                    genesisBits,
+		databaseContext:                   databaseContext,
+		ghostdagManager:                   ghostdagManager,
+		ghostdagStore:                     ghostdagStore,
+		headerStore:                       headerStore,
+		daaBlocksStore:                    daaBlocksStore,
+		dagTopologyManager:                dagTopologyManager,
+		dagTraversalManager:               dagTraversalManager,
+		powMax:                            powMax,
+		difficultyAdjustmentWindowSize:    difficultyAdjustmentWindowSize,
+		disableDifficultyAdjustment:       disableDifficultyAdjustment,
+		targetTimePerBlock:                targetTimePerBlock,
+		genesisHash:                       genesisHash,
+		genesisBits:                       genesisBits,
+		difficultyResetActivationDaaScore: difficultyResetActivationDaaScore,
+		difficultyResetWindowBlocks:       difficultyResetWindowBlocks,
 	}
 }
 
@@ -87,7 +93,11 @@ func (dm *difficultyManager) StageDAADataAndReturnRequiredDifficulty(
 		return 0, err
 	}
 
-	return dm.requiredDifficultyFromTargetsWindow(targetsWindow)
+	bits, err := dm.requiredDifficultyFromTargetsWindow(targetsWindow)
+	if err != nil {
+		return 0, err
+	}
+	return dm.applyDifficultyReset(stagingArea, blockHash, bits)
 }
 
 // RequiredDifficulty returns the difficulty required for some block
@@ -97,7 +107,11 @@ func (dm *difficultyManager) RequiredDifficulty(stagingArea *model.StagingArea, 
 		return 0, err
 	}
 
-	return dm.requiredDifficultyFromTargetsWindow(targetsWindow)
+	bits, err := dm.requiredDifficultyFromTargetsWindow(targetsWindow)
+	if err != nil {
+		return 0, err
+	}
+	return dm.applyDifficultyReset(stagingArea, blockHash, bits)
 }
 
 func (dm *difficultyManager) requiredDifficultyFromTargetsWindow(targetsWindow blockWindow) (uint32, error) {
@@ -136,6 +150,33 @@ func (dm *difficultyManager) requiredDifficultyFromTargetsWindow(targetsWindow b
 	}
 	newTargetBits := difficulty.BigToCompact(newTarget)
 	return newTargetBits, nil
+}
+
+// applyDifficultyReset overrides the computed difficulty with the genesis difficulty for
+// blocks inside the v2.0.0 fair-restart reset window, so public mining reopens at a mineable
+// level after a long stall; the DAA then re-ramps as hashrate joins. Dormant unless both
+// reset params are set. If the block's DAA score is unavailable, difficulty is left unchanged.
+func (dm *difficultyManager) applyDifficultyReset(stagingArea *model.StagingArea, blockHash *externalapi.DomainHash, bits uint32) (uint32, error) {
+	if dm.difficultyResetWindowBlocks == 0 || dm.difficultyResetActivationDaaScore == 0 {
+		return bits, nil
+	}
+	daaScore, err := dm.daaBlocksStore.DAAScore(dm.databaseContext, stagingArea, blockHash)
+	if err != nil {
+		return bits, nil
+	}
+	if blockInDifficultyResetWindow(daaScore, dm.difficultyResetActivationDaaScore, dm.difficultyResetWindowBlocks) {
+		return dm.genesisBits, nil
+	}
+	return bits, nil
+}
+
+// blockInDifficultyResetWindow reports whether a block at the given DAA score falls in the
+// half-open reset window [activation, activation+window). Overflow-safe; window==0 => never.
+func blockInDifficultyResetWindow(blockDaaScore, activationDaaScore, windowBlocks uint64) bool {
+	if windowBlocks == 0 || blockDaaScore < activationDaaScore {
+		return false
+	}
+	return blockDaaScore-activationDaaScore < windowBlocks
 }
 
 func (dm *difficultyManager) stageDAAScoreAndAddedBlocks(stagingArea *model.StagingArea,
