@@ -100,6 +100,31 @@ func createUnsignedTransaction(
 	payments []*Payment,
 	selectedUTXOs []*UTXO) (*serialization.PartiallySignedTransaction, error) {
 
+	outputs := make([]*externalapi.DomainTransactionOutput, len(payments))
+	for i, payment := range payments {
+		scriptPublicKey, err := txscript.PayToAddrScript(payment.Address)
+		if err != nil {
+			return nil, err
+		}
+
+		outputs[i] = &externalapi.DomainTransactionOutput{
+			Value:           payment.Amount,
+			ScriptPublicKey: scriptPublicKey,
+		}
+	}
+
+	return createUnsignedTransactionWithOutputs(extendedPublicKeys, minimumSignatures, outputs, selectedUTXOs)
+}
+
+// createUnsignedTransactionWithOutputs is like createUnsignedTransaction but takes
+// pre-built outputs directly, so callers can fund arbitrary scripts (e.g. the
+// time-locked tranche outputs in timelock.go) rather than only address payments.
+func createUnsignedTransactionWithOutputs(
+	extendedPublicKeys []string,
+	minimumSignatures uint32,
+	outputs []*externalapi.DomainTransactionOutput,
+	selectedUTXOs []*UTXO) (*serialization.PartiallySignedTransaction, error) {
+
 	inputs := make([]*externalapi.DomainTransactionInput, len(selectedUTXOs))
 	partiallySignedInputs := make([]*serialization.PartiallySignedInput, len(selectedUTXOs))
 	for i, utxo := range selectedUTXOs {
@@ -129,19 +154,6 @@ func createUnsignedTransaction(
 			MinimumSignatures:    minimumSignatures,
 			PubKeySignaturePairs: emptyPubKeySignaturePairs,
 			DerivationPath:       utxo.DerivationPath,
-		}
-	}
-
-	outputs := make([]*externalapi.DomainTransactionOutput, len(payments))
-	for i, payment := range payments {
-		scriptPublicKey, err := txscript.PayToAddrScript(payment.Address)
-		if err != nil {
-			return nil, err
-		}
-
-		outputs[i] = &externalapi.DomainTransactionOutput{
-			Value:           payment.Amount,
-			ScriptPublicKey: scriptPublicKey,
 		}
 	}
 
