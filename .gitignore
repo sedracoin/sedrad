@@ -3,3 +3,6 @@
 /sedrad.exe
 /sedrawallet.exe
 /sedractl.exe
+/genkeypair.exe
+/sedraminer.exe
+/dist/
