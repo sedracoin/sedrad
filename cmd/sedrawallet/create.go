@@ -18,6 +18,12 @@ func create(conf *createConfig) error {
 	var signerExtendedPublicKeys []string
 	var err error
 	isMultisig := conf.NumPublicKeys > 1
+	if conf.NumPublicKeys < conf.NumPrivateKeys {
+		return errors.Errorf("--num-public-keys (%d) must be at least --num-private-keys (%d)", conf.NumPublicKeys, conf.NumPrivateKeys)
+	}
+	if conf.MinimumSignatures < 1 || conf.MinimumSignatures > conf.NumPublicKeys {
+		return errors.Errorf("--min-signatures (%d) must be between 1 and --num-public-keys (%d)", conf.MinimumSignatures, conf.NumPublicKeys)
+	}
 	if !conf.Import {
 		encryptedMnemonics, signerExtendedPublicKeys, err = keys.CreateMnemonics(conf.NetParams(), conf.NumPrivateKeys, conf.Password, isMultisig)
 	} else {
