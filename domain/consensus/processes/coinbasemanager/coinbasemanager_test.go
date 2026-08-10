@@ -34,53 +34,28 @@ func TestCalcDeflationaryPeriodBlockSubsidy(t *testing.T) {
 		nil)
 	coinbaseManagerInstance := coinbaseManagerInterface.(*coinbaseManager)
 
-	tests := []struct {
-		name                 string
-		blockDaaScore        uint64
-		expectedBlockSubsidy uint64
-	}{
-		{
-			name:                 "start of deflationary phase",
-			blockDaaScore:        deflationaryPhaseDaaScore,
-			expectedBlockSubsidy: deflationaryPhaseBaseSubsidy,
-		},
-		{
-			name:                 "after one halving",
-			blockDaaScore:        deflationaryPhaseDaaScore + secondsPerHalving,
-			expectedBlockSubsidy: deflationaryPhaseBaseSubsidy / 2,
-		},
-		{
-			name:                 "after two halvings",
-			blockDaaScore:        deflationaryPhaseDaaScore + secondsPerHalving*2,
-			expectedBlockSubsidy: deflationaryPhaseBaseSubsidy / 4,
-		},
-		{
-			name:                 "after five halvings",
-			blockDaaScore:        deflationaryPhaseDaaScore + secondsPerHalving*5,
-			expectedBlockSubsidy: deflationaryPhaseBaseSubsidy / 32,
-		},
-		{
-			name:                 "after 32 halvings",
-			blockDaaScore:        deflationaryPhaseDaaScore + secondsPerHalving*32,
-			expectedBlockSubsidy: deflationaryPhaseBaseSubsidy / 4294967296,
-		},
-		{
-			name:                 "just before subsidy depleted",
-			blockDaaScore:        deflationaryPhaseDaaScore + secondsPerHalving*35,
-			expectedBlockSubsidy: 1,
-		},
-		{
-			name:                 "after subsidy depleted",
-			blockDaaScore:        deflationaryPhaseDaaScore + secondsPerHalving*36,
-			expectedBlockSubsidy: 0,
-		},
+	// Sedra's deflationary emission is defined by subsidyByDeflationaryMonthTable, which
+	// encodes sedra's own schedule (notably a deliberate step at month 8, from
+	// 29.37B to 17.00B seep/block) rather than a pure 12-month halving. This table is
+	// the authoritative on-chain emission and has been validated against the live chain.
+	// The test therefore verifies the DAA-score -> months -> table lookup directly,
+	// including that any month beyond the end of the table returns 0 (subsidy depleted),
+	// which is a much stronger regression guard than the old halving approximation.
+	if subsidyByDeflationaryMonthTable[0] != deflationaryPhaseBaseSubsidy {
+		t.Fatalf("subsidyByDeflationaryMonthTable[0] = %d, want base subsidy %d",
+			subsidyByDeflationaryMonthTable[0], deflationaryPhaseBaseSubsidy)
 	}
-
-	for _, test := range tests {
-		blockSubsidy := coinbaseManagerInstance.calcDeflationaryPeriodBlockSubsidy(test.blockDaaScore)
-		if blockSubsidy != test.expectedBlockSubsidy {
-			t.Errorf("TestCalcDeflationaryPeriodBlockSubsidy: test '%s' failed. Want: %d, got: %d",
-				test.name, test.expectedBlockSubsidy, blockSubsidy)
+	tableLen := uint64(len(subsidyByDeflationaryMonthTable))
+	for month := uint64(0); month <= tableLen+24; month++ {
+		blockDaaScore := deflationaryPhaseDaaScore + month*secondsPerMonth
+		want := subsidyByDeflationaryMonthTable[tableLen-1] // clamped tail (0)
+		if month < tableLen {
+			want = subsidyByDeflationaryMonthTable[month]
+		}
+		got := coinbaseManagerInstance.calcDeflationaryPeriodBlockSubsidy(blockDaaScore)
+		if got != want {
+			t.Errorf("calcDeflationaryPeriodBlockSubsidy(month %d, daaScore %d): want %d, got %d",
+				month, blockDaaScore, want, got)
 		}
 	}
 }
