@@ -280,9 +280,9 @@ var MainnetParams = Params{
 	// TreasuryPerBlockSeep to the treasury multisig above (miner subsidy untouched).
 	// activation = frozen tip DAA (53,632,352) + 20 buffer, so no already-mined block is
 	// in-window. window(200) * perBlock(1e15 seep) = 2e17 seep = 2,000,000,000 SDR.
-	TreasuryAllocationActivationDaaScore: 53_632_372,
-	TreasuryAllocationWindowBlocks:       200,
-	TreasuryAllocationPerBlockSeep:       1_000_000_000_000_000,
+	TreasuryAllocationActivationDaaScore: 53_633_267,
+	TreasuryAllocationWindowBlocks:       454,
+	TreasuryAllocationPerBlockSeep:       100_000_000_000_000,
 
 	// Fair-restart difficulty reset (v2.0.0). Blocks with DAA score in
 	// [activation, activation+2641) use the genesis difficulty so public mining reopens
