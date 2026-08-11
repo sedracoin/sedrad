@@ -283,7 +283,7 @@ var MainnetParams = Params{
 	// (53,625,512) + 1, so it applies to the FIRST new block and never re-validates the
 	// existing tip. RE-CONFIRM the live tip DAA right before the final release build and
 	// update if the chain advanced. (Treasury allocation above stays dormant separately.)
-	DifficultyResetActivationDaaScore: 53_625_513,
+	DifficultyResetActivationDaaScore: 53_625_512,
 	DifficultyResetWindowBlocks:       2641,
 
 	// DAG parameters
