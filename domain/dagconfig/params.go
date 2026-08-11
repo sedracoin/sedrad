@@ -116,9 +116,13 @@ type Params struct {
 	// A window (rather than a single block) is required because coinbase is built
 	// and validated per-block from each block's own DAA data; no single-block
 	// condition is unique in a DAG.
-	TreasuryAllocationActivationDaaScore uint64
-	TreasuryAllocationWindowBlocks       uint64
-	TreasuryAllocationPerBlockSeep       uint64
+	// Parallel slices, one entry per allocation window (the 2B foundation mint
+	// was performed in two windows with different per-block amounts). A block is
+	// in window i when its DAA score is in [ActivationDaaScore[i],
+	// ActivationDaaScore[i]+WindowBlocks[i]); windows must be disjoint.
+	TreasuryAllocationActivationDaaScore []uint64
+	TreasuryAllocationWindowBlocks       []uint64
+	TreasuryAllocationPerBlockSeep       []uint64
 	TreasuryScriptPublicKey              *externalapi.ScriptPublicKey
 
 	// DifficultyResetActivationDaaScore / DifficultyResetWindowBlocks implement the
@@ -280,9 +284,11 @@ var MainnetParams = Params{
 	// TreasuryPerBlockSeep to the treasury multisig above (miner subsidy untouched).
 	// activation = frozen tip DAA (53,632,352) + 20 buffer, so no already-mined block is
 	// in-window. window(200) * perBlock(1e15 seep) = 2e17 seep = 2,000,000,000 SDR.
-	TreasuryAllocationActivationDaaScore: 53_633_267,
-	TreasuryAllocationWindowBlocks:       454,
-	TreasuryAllocationPerBlockSeep:       100_000_000_000_000,
+	// Two disjoint windows, exactly as mined (verified against on-chain outputs:
+	// 163 x 1e15 in window 1, 400 x 1e14 in window 2 = 2,030,000,000 SDR).
+	TreasuryAllocationActivationDaaScore: []uint64{53_632_372, 53_633_267},
+	TreasuryAllocationWindowBlocks:       []uint64{200, 454},
+	TreasuryAllocationPerBlockSeep:       []uint64{1_000_000_000_000_000, 100_000_000_000_000},
 
 	// Fair-restart difficulty reset (v2.0.0). Blocks with DAA score in
 	// [activation, activation+2641) use the genesis difficulty so public mining reopens

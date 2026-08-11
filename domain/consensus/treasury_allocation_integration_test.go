@@ -30,9 +30,9 @@ func TestTreasuryAllocationFork(t *testing.T) {
 		treasuryScript := &externalapi.ScriptPublicKey{Script: []byte{0x51}, Version: 0}
 
 		// Fork-enabled node.
-		consensusConfig.TreasuryAllocationActivationDaaScore = activation
-		consensusConfig.TreasuryAllocationWindowBlocks = window
-		consensusConfig.TreasuryAllocationPerBlockSeep = perBlockSeep
+		consensusConfig.TreasuryAllocationActivationDaaScore = []uint64{activation}
+		consensusConfig.TreasuryAllocationWindowBlocks = []uint64{window}
+		consensusConfig.TreasuryAllocationPerBlockSeep = []uint64{perBlockSeep}
 		consensusConfig.TreasuryScriptPublicKey = treasuryScript
 
 		factory := consensus.NewFactory()
@@ -44,9 +44,9 @@ func TestTreasuryAllocationFork(t *testing.T) {
 
 		// "Old" node: identical config but the allocation is dormant (pre-fork client).
 		oldConfig := *consensusConfig
-		oldConfig.TreasuryAllocationActivationDaaScore = 0
-		oldConfig.TreasuryAllocationWindowBlocks = 0
-		oldConfig.TreasuryAllocationPerBlockSeep = 0
+		oldConfig.TreasuryAllocationActivationDaaScore = nil
+		oldConfig.TreasuryAllocationWindowBlocks = nil
+		oldConfig.TreasuryAllocationPerBlockSeep = nil
 		oldConfig.TreasuryScriptPublicKey = nil
 		oldTc, oldTeardown, err := factory.NewTestConsensus(&oldConfig, "TestTreasuryAllocationFork_old")
 		if err != nil {

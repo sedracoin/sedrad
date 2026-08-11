@@ -20,10 +20,12 @@ type coinbaseManager struct {
 	deflationaryPhaseDaaScore               uint64
 	deflationaryPhaseBaseSubsidy            uint64
 
-	// Treasury allocation (v2.0.0). Dormant when window==0 or script==nil.
-	treasuryAllocationActivationDaaScore uint64
-	treasuryAllocationWindowBlocks       uint64
-	treasuryAllocationPerBlockSeep       uint64
+	// Treasury allocation (v2.0.0). Parallel slices, one entry per allocation
+	// window (the 2B foundation mint used two windows). Dormant when the slices
+	// are empty or script==nil. See dagconfig.Params for the full description.
+	treasuryAllocationActivationDaaScore []uint64
+	treasuryAllocationWindowBlocks       []uint64
+	treasuryAllocationPerBlockSeep       []uint64
 	treasuryScriptPublicKey              *externalapi.ScriptPublicKey
 
 	databaseContext     model.DBReader
@@ -217,9 +219,8 @@ func (c *coinbaseManager) CalcBlockSubsidy(stagingArea *model.StagingArea, block
 func (c *coinbaseManager) treasuryAllocationOutput(stagingArea *model.StagingArea,
 	blockHash *externalapi.DomainHash) (*externalapi.DomainTransactionOutput, bool, error) {
 
-	// Dormant unless a window, a per-block amount, and a destination script are all set.
-	if c.treasuryAllocationWindowBlocks == 0 || c.treasuryAllocationPerBlockSeep == 0 ||
-		c.treasuryScriptPublicKey == nil {
+	// Dormant unless at least one window and a destination script are set.
+	if len(c.treasuryAllocationWindowBlocks) == 0 || c.treasuryScriptPublicKey == nil {
 		return nil, false, nil
 	}
 
@@ -233,15 +234,23 @@ func (c *coinbaseManager) treasuryAllocationOutput(stagingArea *model.StagingAre
 		return nil, false, err
 	}
 
-	if !blockInTreasuryAllocationWindow(blockDaaScore, c.treasuryAllocationActivationDaaScore,
-		c.treasuryAllocationWindowBlocks) {
-		return nil, false, nil
+	// The block belongs to at most one window (windows are disjoint). The first
+	// matching window's per-block amount is paid. Same gate function as before,
+	// so each window validates byte-for-byte as the binary that mined it did.
+	for i := range c.treasuryAllocationWindowBlocks {
+		if c.treasuryAllocationPerBlockSeep[i] == 0 {
+			continue
+		}
+		if blockInTreasuryAllocationWindow(blockDaaScore, c.treasuryAllocationActivationDaaScore[i],
+			c.treasuryAllocationWindowBlocks[i]) {
+			return &externalapi.DomainTransactionOutput{
+				Value:           c.treasuryAllocationPerBlockSeep[i],
+				ScriptPublicKey: c.treasuryScriptPublicKey,
+			}, true, nil
+		}
 	}
 
-	return &externalapi.DomainTransactionOutput{
-		Value:           c.treasuryAllocationPerBlockSeep,
-		ScriptPublicKey: c.treasuryScriptPublicKey,
-	}, true, nil
+	return nil, false, nil
 }
 
 // blockInTreasuryAllocationWindow reports whether a block at the given DAA score is
@@ -332,9 +341,9 @@ func New(
 	deflationaryPhaseDaaScore uint64,
 	deflationaryPhaseBaseSubsidy uint64,
 
-	treasuryAllocationActivationDaaScore uint64,
-	treasuryAllocationWindowBlocks uint64,
-	treasuryAllocationPerBlockSeep uint64,
+	treasuryAllocationActivationDaaScore []uint64,
+	treasuryAllocationWindowBlocks []uint64,
+	treasuryAllocationPerBlockSeep []uint64,
 	treasuryScriptPublicKey *externalapi.ScriptPublicKey,
 
 	dagTraversalManager model.DAGTraversalManager,
