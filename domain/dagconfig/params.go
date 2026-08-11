@@ -275,6 +275,14 @@ var MainnetParams = Params{
 		0x84, 0x2d, 0xa1, 0x06, 0x65, 0xbf, 0x57, 0x43, 0xb3, 0xae, 0xd4, 0xac, 0x6b, 0x67, 0x2a, 0xe8,
 		0x1b, 0xce, 0x87,
 	}},
+	// ARMED 2026-08-11: the 2,000,000,000 SDR regenesis-foundation allocation. Each block
+	// with DAA score in [activation, activation+window) adds an extra coinbase output of
+	// TreasuryPerBlockSeep to the treasury multisig above (miner subsidy untouched).
+	// activation = frozen tip DAA (53,632,352) + 20 buffer, so no already-mined block is
+	// in-window. window(200) * perBlock(1e15 seep) = 2e17 seep = 2,000,000,000 SDR.
+	TreasuryAllocationActivationDaaScore: 53_632_372,
+	TreasuryAllocationWindowBlocks:       200,
+	TreasuryAllocationPerBlockSeep:       1_000_000_000_000_000,
 
 	// Fair-restart difficulty reset (v2.0.0). Blocks with DAA score in
 	// [activation, activation+2641) use the genesis difficulty so public mining reopens
