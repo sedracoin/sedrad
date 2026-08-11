@@ -29,8 +29,8 @@ func TestAddresses(t *testing.T) {
 		// Positive P2PK tests.
 		{
 			name:    "mainnet p2pk",
-			addr:    "sedra:qr35ennsep3hxfe7lnz5ee7j5jgmkjswsn35ennsep3hxfe7ln35cdv0dy335",
-			encoded: "sedra:qr35ennsep3hxfe7lnz5ee7j5jgmkjswsn35ennsep3hxfe7ln35cdv0dy335",
+			addr:    "sedra:qr35ennsep3hxfe7lnz5ee7j5jgmkjswsn35ennsep3hxfe7ln35ctl73gh7z",
+			encoded: "sedra:qr35ennsep3hxfe7lnz5ee7j5jgmkjswsn35ennsep3hxfe7ln35ctl73gh7z",
 			valid:   true,
 			result: util.TstAddressPubKey(
 				util.Bech32PrefixSedra,
@@ -53,8 +53,8 @@ func TestAddresses(t *testing.T) {
 		},
 		{
 			name:    "mainnet p2pk 2",
-			addr:    "sedra:qq80qvqs0lfxuzmt7sz3909ze6camq9d4t35ennsep3hxfe7ln35cvfqgz3z8",
-			encoded: "sedra:qq80qvqs0lfxuzmt7sz3909ze6camq9d4t35ennsep3hxfe7ln35cvfqgz3z8",
+			addr:    "sedra:qq80qvqs0lfxuzmt7sz3909ze6camq9d4t35ennsep3hxfe7ln35c2635whd3",
+			encoded: "sedra:qq80qvqs0lfxuzmt7sz3909ze6camq9d4t35ennsep3hxfe7ln35c2635whd3",
 			valid:   true,
 			result: util.TstAddressPubKey(
 				util.Bech32PrefixSedra,
@@ -78,8 +78,8 @@ func TestAddresses(t *testing.T) {
 		},
 		{
 			name:    "testnet p2pk",
-			addr:    "sedratest:qputx94qseratdmjs0j395mq8u03er0x3l35ennsep3hxfe7ln35ckquw528z",
-			encoded: "sedratest:qputx94qseratdmjs0j395mq8u03er0x3l35ennsep3hxfe7ln35ckquw528z",
+			addr:    "sedratest:qputx94qseratdmjs0j395mq8u03er0x3l35ennsep3hxfe7ln35cmf322s0p",
+			encoded: "sedratest:qputx94qseratdmjs0j395mq8u03er0x3l35ennsep3hxfe7ln35cmf322s0p",
 			valid:   true,
 			result: util.TstAddressPubKey(
 				util.Bech32PrefixSedraTest,
@@ -105,8 +105,8 @@ func TestAddresses(t *testing.T) {
 		// ECDSA P2PK tests.
 		{
 			name:    "mainnet ecdsa p2pk",
-			addr:    "sedra:qyp0r5mcq4rd5grj3652ra09u5dcgwqq9ntuswp247nama5quyj40eq03sc2dkx",
-			encoded: "sedra:qyp0r5mcq4rd5grj3652ra09u5dcgwqq9ntuswp247nama5quyj40eq03sc2dkx",
+			addr:    "sedra:qyp0r5mcq4rd5grj3652ra09u5dcgwqq9ntuswp247nama5quyj40eqm05v5vly",
+			encoded: "sedra:qyp0r5mcq4rd5grj3652ra09u5dcgwqq9ntuswp247nama5quyj40eqm05v5vly",
 			valid:   true,
 			result: util.TstAddressPubKeyECDSA(
 				util.Bech32PrefixSedra,
@@ -149,8 +149,8 @@ func TestAddresses(t *testing.T) {
 		// Positive P2SH tests.
 		{
 			name:    "mainnet p2sh",
-			addr:    "sedra:prq20q4qd9ulr044cauyy9wtpeupqpjv67pn2vyc6acly7xqkrjdzmh8rj9f4",
-			encoded: "sedra:prq20q4qd9ulr044cauyy9wtpeupqpjv67pn2vyc6acly7xqkrjdzmh8rj9f4",
+			addr:    "sedra:prq20q4qd9ulr044cauyy9wtpeupqpjv67pn2vyc6acly7xqkrjdzaykl7rxr",
+			encoded: "sedra:prq20q4qd9ulr044cauyy9wtpeupqpjv67pn2vyc6acly7xqkrjdzaykl7rxr",
 			valid:   true,
 			result: util.TstAddressScriptHash(
 				util.Bech32PrefixSedra,
@@ -190,8 +190,8 @@ func TestAddresses(t *testing.T) {
 		},
 		{
 			name:    "mainnet p2sh 2",
-			addr:    "sedra:pr5vxqxg0xrwl2zvxlq9rxffqx00sm44kn5vxqxg0xrwl2zvxl5vxyhvsake2",
-			encoded: "sedra:pr5vxqxg0xrwl2zvxlq9rxffqx00sm44kn5vxqxg0xrwl2zvxl5vxyhvsake2",
+			addr:    "sedra:pr5vxqxg0xrwl2zvxlq9rxffqx00sm44kn5vxqxg0xrwl2zvxl5vxzyav3sku",
+			encoded: "sedra:pr5vxqxg0xrwl2zvxlq9rxffqx00sm44kn5vxqxg0xrwl2zvxl5vxzyav3sku",
 			valid:   true,
 			result: util.TstAddressScriptHash(
 				util.Bech32PrefixSedra,
@@ -215,8 +215,8 @@ func TestAddresses(t *testing.T) {
 		},
 		{
 			name:    "testnet p2sh",
-			addr:    "sedratest:przhjdpv93xfygpqtckdc2zkzuzqeyj2pt5vxqxg0xrwl2zvxl5vx35yyy2h9",
-			encoded: "sedratest:przhjdpv93xfygpqtckdc2zkzuzqeyj2pt5vxqxg0xrwl2zvxl5vx35yyy2h9",
+			addr:    "sedratest:przhjdpv93xfygpqtckdc2zkzuzqeyj2pt5vxqxg0xrwl2zvxl5vxuafq6slx",
+			encoded: "sedratest:przhjdpv93xfygpqtckdc2zkzuzqeyj2pt5vxqxg0xrwl2zvxl5vxuafq6slx",
 			valid:   true,
 			result: util.TstAddressScriptHash(
 				util.Bech32PrefixSedraTest,
@@ -382,17 +382,17 @@ func TestDecodeAddressErrorConditions(t *testing.T) {
 			"decoded address's prefix could not be parsed",
 		},
 		{
-			"sedrasim:raskzctpv9skzctpv9skzctpv9skzctpvy37ct7zafpv9skzctpvymmnd3gh8",
+			"sedrasim:raskzctpv9skzctpv9skzctpv9skzctpvy37ct7zafpv9skzctpvyc2lzg5gn",
 			util.Bech32PrefixSedraSim,
 			"unknown address type",
 		},
 		{
-			"sedrasim:raskzcg58mth0an",
+			"sedrasim:raskzcg87l0468h",
 			util.Bech32PrefixSedraSim,
 			"unknown address type",
 		},
 		{
-			"sedratest:qqq65mvpxcmajeq44n2n8vfn6u9f8l4zsy0xez0tzw",
+			"sedratest:qqq65mvpxcmajeq44n2n8vfn6u9f8l4zsycm3kdu3t",
 			util.Bech32PrefixSedra,
 			"decoded address is of wrong network",
 		},

@@ -61,6 +61,12 @@ func TestRandomUint64(t *testing.T) {
 // TestRandomUint64Errors uses a fake reader to force error paths to be executed
 // and checks the results accordingly.
 func TestRandomUint64Errors(t *testing.T) {
+	// Go 1.24+ crypto/rand treats a failing rand.Reader as an unrecoverable fatal
+	// error (panics the process; see go.dev/issue/66821) rather than returning an
+	// error, so this error-injection test can no longer run. Production randomness
+	// (a working rand.Reader) is unaffected.
+	t.Skip("crypto/rand fatally panics on reader failure in Go 1.24+; error-injection no longer testable")
+
 	// Test short reads.
 	reader := rand.Reader
 	rand.Reader = &fakeRandReader{n: 2, err: io.EOF}
